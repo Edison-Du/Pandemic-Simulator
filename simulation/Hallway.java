@@ -16,7 +16,7 @@ public class Hallway extends JPanel {
     public Hallway (School school) {
         this.school = school;
         this.setBackground(UI.HALLWAY_BG);
-        this.setBorder(BorderFactory.createLineBorder(Color.white, 2));
+        this.setBorder(BorderFactory.createLineBorder(Color.white));
     }
 
     public void simulateSpread() {
@@ -35,7 +35,7 @@ public class Hallway extends JPanel {
             for (int i = 0; i < Consts.NUM_STUDENTS; i++) {
                 int x = (i%20)*(810/20);// + ThreadLocalRandom.current().nextInt(1, 5);
                 int y = (i/20)*(120/6);// + ThreadLocalRandom.current().nextInt(1, 5);
-                // if ((i/20)%2 == 0) x += 20;
+                if ((i/20)%2 == 0) x += 20;
 
                 if (school.students.get(i).status == Status.SUSCEPTIBLE) {
                     g2d.setColor(UI.SUSCEPTIBLE_COLOR);

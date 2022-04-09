@@ -22,7 +22,7 @@ public class Classroom extends JPanel {
         reset();
 
         this.setBackground(UI.SIDE_BAR_BG);
-        this.setBorder(BorderFactory.createLineBorder(Color.white, 2));
+        this.setBorder(BorderFactory.createLineBorder(Color.white));
     }
 
 	public void reset() {
