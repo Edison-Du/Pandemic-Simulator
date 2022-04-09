@@ -4,6 +4,7 @@ package views.components;
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -14,7 +15,11 @@ import config.Globals;
 public class EditSchedule extends Page implements ActionListener{
     public Slider[] sliders = new Slider[4];
     public Toggle[] toggles = new Toggle[4];
+    public JLabel[] periodLengths = new JLabel[4];
     public int[] oldSliderPositions = new int[4];
+    // public boolean[] oldToggles
+
+
     public CustomButton[] asyncBtns = new CustomButton[4];
     public CustomButton saveBtn, cancelBtn;
     public Window window;
@@ -26,18 +31,24 @@ public class EditSchedule extends Page implements ActionListener{
         this.window = window;
 
         for(int i = 0; i < 4; i++){
-            sliders[i] = new Slider(280, 30, 14);
+            sliders[i] = new Slider(300, 30, 15);
 
             sliders[i].position = (sliders[i].length/sliders[i].partition) * (Globals.P_LENGTH[0]/10 - 1);
             oldSliderPositions[i] = sliders[i].position;
             
-            sliders[i].setBounds(30, 100 + i*100, 280, 30);
+            sliders[i].setBounds(30, 100 + i*100, 300, 30);
             sliders[i].setBackground(UI.MAIN_PANEL_BG);
             sliders[i].addActionListener(this);
             this.add(sliders[i]);
 
-            toggles[i] = new Toggle(40, 20);
-            toggles[i].setBounds(360, 100 + i*100, 40, 20);
+            periodLengths[i] = new JLabel("70 min");
+            periodLengths[i].setBounds(350, 100 + i*100, 100, 30);
+            periodLengths[i].setForeground(Color.white);
+            periodLengths[i].setFont(UI.orkney18);
+            this.add(periodLengths[i]);
+
+            toggles[i] = new Toggle(60, 30);
+            toggles[i].setBounds(560, 100 + i*100, 60, 30);
             this.add(toggles[i]);
         }
         cancelBtn = new CustomButton("Cancel");
@@ -49,6 +60,8 @@ public class EditSchedule extends Page implements ActionListener{
         saveBtn.setBounds(170, 600, 100, 50);
         saveBtn.addActionListener(this);
         this.add(saveBtn);
+
+        
     }
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == saveBtn){
@@ -66,9 +79,18 @@ public class EditSchedule extends Page implements ActionListener{
             }
             window.changePage(Pages.SIMULATION_PAGE);
         }
+        updateText();
     }
 
-
+    public void updateText() {
+        
+        for (int i = 0; i < 4; i++) {
+            periodLengths[i].setText(((sliders[i].getSliderPosition() + 1) * 10) + " min");
+        }
+        
+        this.revalidate();
+        this.repaint();
+    }
 
     public void updatePage() {}
 

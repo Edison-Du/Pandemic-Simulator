@@ -12,10 +12,7 @@ public final class Globals {
 
 
     public static int[] P_LENGTH = {70, 70, 70, 70};
-    // public static int P1_LENGTH = 70;
-    // public static int P2_LENGTH = 70;
-    // public static int P3_LENGTH = 70;
-    // public static int P4_LENGTH = 70;
+    public static boolean[] P_SYNC = {true, true, true, true};
     public static int HALLWAY_TIME = 10;
 
     public static Schedule schedule = new Schedule();
