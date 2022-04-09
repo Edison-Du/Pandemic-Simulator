@@ -3,6 +3,8 @@ package views.components;
 import java.awt.BorderLayout;
 
 import config.Globals;
+import config.UI;
+import simulation.Periods;
 import simulation.School;
 import views.Window;
 
@@ -28,11 +30,14 @@ public class SimulationPage extends Page {
     
     public void updatePage() {
         if (simRunning) {
-            Globals.TIME_ELAPSED += 10;
-            if (Globals.TIME_ELAPSED % (60 * 24) == 0){
-                school.dayChange();
-            }
-            school.updateStudents();
+            do {
+                Globals.TIME_ELAPSED += 10;
+                if (Globals.TIME_ELAPSED % (60 * 24) == 0){
+                    school.dayChange();
+                }
+                school.updateStudents();
+
+            } while (Globals.schedule.getCurrentInterval() == Periods.IGNORED);
         }
         mainPanel.timeTracker.updateText();
     }

@@ -4,7 +4,7 @@ import java.awt.*;
 import java.io.File;
 
 public final class UI {
-    public static final int UPDATE_RATE = 100;
+    public static final int UPDATE_RATE = 500;
     public static final int WINDOW_WIDTH = 1280;
     public static final int WINDOW_HEIGHT = 720;
 

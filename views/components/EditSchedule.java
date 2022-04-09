@@ -17,10 +17,8 @@ public class EditSchedule extends Page implements ActionListener{
     public Toggle[] toggles = new Toggle[4];
     public JLabel[] periodLengths = new JLabel[4];
     public int[] oldSliderPositions = new int[4];
-    // public boolean[] oldToggles
+    public boolean[] oldToggles = new boolean[4];
 
-
-    public CustomButton[] asyncBtns = new CustomButton[4];
     public CustomButton saveBtn, cancelBtn;
     public Window window;
 
@@ -66,7 +64,7 @@ public class EditSchedule extends Page implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == saveBtn){
             for(int i = 0; i < 4; i++){
-                
+                oldToggles[i] = toggles[i].getState();
                 oldSliderPositions[i] = sliders[i].position;
                 Globals.P_LENGTH[i] = (sliders[i].getSliderPosition() + 1) * 10;
             }   
@@ -76,6 +74,7 @@ public class EditSchedule extends Page implements ActionListener{
         }else if(e.getSource() == cancelBtn){
             for(int i = 0; i < 4; i++){
                 sliders[i].position = oldSliderPositions[i];
+                toggles[i].setState(oldToggles[i]);
             }
             window.changePage(Pages.SIMULATION_PAGE);
         }

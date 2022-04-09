@@ -93,8 +93,8 @@ public class Classroom extends JPanel {
                 } else if (seating[i][j].status == Status.RECOVERED){
                     g2d.setColor(UI.RECOVERED_COLOR);
                 }
-                g2d.fillOval(j * (280/5),// + ThreadLocalRandom.current().nextInt(1, 5), 
-                i * (200/4),// + ThreadLocalRandom.current().nextInt(1, 5), 
+                g2d.fillOval(j * (280/5) + ThreadLocalRandom.current().nextInt(1, 5), 
+                i * (200/4) + ThreadLocalRandom.current().nextInt(1, 5), 
                 20, 20);
 
             }

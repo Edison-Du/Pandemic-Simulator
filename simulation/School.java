@@ -106,11 +106,15 @@ public class School {
 
             int p = -1;
             Periods now = Globals.schedule.getCurrentInterval();
+
+            boolean sync = Globals.schedule.currentIntervalSynchronous();
+
             if (now == Periods.P_1) p = 0;
             if (now == Periods.P_2) p = 1;
             if (now == Periods.P_3) p = 2;
             if (now == Periods.P_4) p = 3;
-            if (p >= 0) {
+
+            if (p >= 0 && sync) {
                 for (int i = 0; i < Consts.NUM_STUDENTS; i++) {
 
                     int classN = students.get(i).schedule[p];
@@ -128,7 +132,7 @@ public class School {
                 for (int i = 0; i < Consts.NUM_CLASSES; i++) {
                     classes.get(i).reset();
                 }
-                if (now == Periods.HALL) hallway.simulateSpread();
+                if (now == Periods.HALL && sync) hallway.simulateSpread();
             }
 
         }}

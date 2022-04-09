@@ -33,8 +33,8 @@ public class Hallway extends JPanel {
 
         if (school != null && school.students.size() > 0 && Globals.schedule.getCurrentInterval() == Periods.HALL) {
             for (int i = 0; i < Consts.NUM_STUDENTS; i++) {
-                int x = (i%20)*(810/20);// + ThreadLocalRandom.current().nextInt(1, 5);
-                int y = (i/20)*(120/6);// + ThreadLocalRandom.current().nextInt(1, 5);
+                int x = (i%20)*(810/20) + ThreadLocalRandom.current().nextInt(1, 5);
+                int y = (i/20)*(120/6) + ThreadLocalRandom.current().nextInt(1, 5);
                 if ((i/20)%2 == 0) x += 20;
 
                 if (school.students.get(i).status == Status.SUSCEPTIBLE) {

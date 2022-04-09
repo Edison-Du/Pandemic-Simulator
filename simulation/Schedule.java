@@ -48,34 +48,42 @@ public class Schedule{
                         new Interval(schedules.get(i).left, schedules.get(i).right, schedules.get(i).period, !flag));
                 }
             }
-
-            for (Interval i : schedules) {
-                System.out.println(i.left + " " + i.right + " " + i.period);
-            }
         }
     }
 
-    public int getInterval(int minutes){
+    public Interval getInterval(){
         synchronized(schedules) {
-            for(int i = 0; i < schedules.size(); i++){
-                if(minutes >= schedules.get(i).left && minutes < schedules.get(i).right){
+            int time = Globals.TIME_ELAPSED % (60 * 24);
+            for(Interval i : schedules){
+                if(time >= i.left && time < i.right){ // exclusive
                     return i;
                 }
             }
         }
-        return -1;
+        return null;
     }
 
     public Periods getCurrentInterval() {
         synchronized(schedules) {
-            for(Interval i : schedules){
-                int time = Globals.TIME_ELAPSED % (60 * 24);
-                if(time >= i.left && time < i.right){ // exclusive
-                    return i.period;
-                }
-            }
+            Interval i = getInterval();
+            if (i != null) return i.period;
         }
-        return Periods.NONE;
+        if (Globals.TIME_ELAPSED % (60 * 24) >= 7*60 && 
+            Globals.TIME_ELAPSED % (60 * 24) <= getFinishedTime() + 60) return Periods.NONE;
+        return Periods.IGNORED;
+    }
+
+    public boolean currentIntervalSynchronous() {
+        Interval i = getInterval();
+        if (i != null) return i.sync;
+        return false;
+    }
+
+    public int getFinishedTime() {
+        int t = START_TIME;
+        for (int i = 0; i < 4; i++) t += Globals.P_LENGTH[i];
+        t += Globals.HALLWAY_TIME * 5;
+        return t;
     }
 
     public String getCurrentIntervalString() {

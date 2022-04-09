@@ -44,7 +44,9 @@ public class Toggle extends JPanel implements MouseListener{
     public boolean getState() {
         return this.state;
     }
-
+    public void setState(boolean state){
+        this.state = state;
+    }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
