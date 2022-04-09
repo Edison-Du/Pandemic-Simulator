@@ -1,6 +1,6 @@
 package views.components;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import config.UI;
 
@@ -10,6 +10,8 @@ import java.awt.event.*;
 public class Slider extends JPanel implements MouseListener, MouseMotionListener {
     private int length, diameter, position, partition;
     private boolean pressed;
+
+    private ActionListener actionListener;
 
     public Slider(int length, int diameter, int partition) {
         this.length = length;
@@ -22,6 +24,10 @@ public class Slider extends JPanel implements MouseListener, MouseMotionListener
         this.setBackground(UI.SIDE_BAR_BG);
         // Partition each slider into x parts
         // As long as mouse pressed and not mouse released, slider will follow the x value of the mouse
+    }
+
+    public void addActionListener(ActionListener listener) {
+        this.actionListener = listener;
     }
 
     public void mousePressed(MouseEvent e) {
@@ -37,6 +43,13 @@ public class Slider extends JPanel implements MouseListener, MouseMotionListener
             position = (int)Math.round(((double)mouseX - diameter/2.0)/((double)length/partition)) * (length/partition);//(length/partition) * (length/partition);
             position = Math.min(position, length - diameter);
             position = Math.max(position, 0);
+
+            if (actionListener != null) {
+                ActionEvent event = new ActionEvent(this, 
+                    ActionEvent.ACTION_PERFORMED, 
+                    Integer.toString(getSliderPosition()));
+                actionListener.actionPerformed(event);
+            }
         }
     }
 
