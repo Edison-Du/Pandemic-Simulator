@@ -8,29 +8,37 @@ public class Schedule{
     public final int START_TIME = 8*60+30; // 8:30
 
     public ArrayList<Interval> schedules; 
-    public ArrayList<Integer> intervalTimes;
 
     public Schedule(){
         schedules = new ArrayList<>();
-        intervalTimes = new ArrayList<>();
-
+        // intervalTimes = new ArrayList<>();
+        for(int i = 0; i < 9; i++)schedules.add(new Interval(0, 0, Periods.NONE));
         generateIntervals();
-        // schedules.add(new Interval(8*60+50, 10*60+10, Periods.P_1));
-        // schedules.add(new Interval(10*60+10, 11*60+30, Periods.P_2));
-
-        // schedules.add(new Interval(1*60+50, 6*60+10, Periods.P_1));
-        // schedules.add(new Interval(6*60+10, 7*60+10, Periods.HALL));
-        // schedules.add(new Interval(7*60+10, 12*60+30, Periods.P_2));
-        // schedules.add(new Interval(12*60+10, 13*60+10, Periods.HALL));
-        // schedules.add(new Interval(13*60+10, 18*60+10, Periods.P_3));
-        // schedules.add(new Interval(18*60+10, 19*60+10, Periods.HALL));
-        // schedules.add(new Interval(19*60+10, 23*60+30, Periods.P_4));
     }
 
     public void generateIntervals() {
         synchronized(schedules) {
             int currentTime = START_TIME;
-
+            // Interval temp = new Interval(currentTime, currentTime + 10, Periods.HALL);
+            // System.out.println(temp.left + " " + temp.right);
+            schedules.set(0, new Interval(currentTime, currentTime + Globals.HALLWAY_TIME, Periods.HALL));
+            currentTime += Globals.HALLWAY_TIME;
+            for(int i = 0; i < 4; i++){
+                int left, right;
+                left = currentTime;
+                right = currentTime + Globals.P_LENGTH[i];
+                // 0    1     2     3    4     5    6    7     8
+                // H -> P1 -> H -> P2 -> H -> P3 -> H -> P4 -> H
+                if(i == 0)schedules.set(i*2+1, new Interval(left, right, Periods.P_1));
+                else if(i == 1)schedules.set(i*2+1, new Interval(left, right, Periods.P_2));
+                else if(i == 2)schedules.set(i*2+1, new Interval(left, right, Periods.P_3));
+                else if(i == 3)schedules.set(i*2+1, new Interval(left, right, Periods.P_4));
+                schedules.set(i*2+2, new Interval(right, right + Globals.HALLWAY_TIME, Periods.HALL));
+                currentTime += Globals.P_LENGTH[i] + Globals.HALLWAY_TIME;
+            }
+            for (Interval i : schedules) {
+                System.out.println(i.left + " " + i.right + " " + i.period);
+            }
         }
     }
 

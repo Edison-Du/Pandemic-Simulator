@@ -1,6 +1,10 @@
 package views.components;
 
 import javax.swing.JButton;
+import javax.swing.border.EmptyBorder;
+
+import config.UI;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -29,7 +33,18 @@ public class CustomButton extends JButton {
         super(text);
         super.setContentAreaFilled(false);
         this.setFocusable(false);
-        isRound = false;
+
+
+        setRound(true);
+        setBorderRadius(10);
+        setBorder(new EmptyBorder(9, 0, 0, 0));
+        setHoverColor(UI.SUSCEPTIBLE_COLOR.darker());
+        setPressedColor(UI.SUSCEPTIBLE_COLOR.darker());
+        setBackground(UI.SUSCEPTIBLE_COLOR);
+
+        setForeground(Color.WHITE);
+        setFont(UI.orkney18);
+        // isRound = false;
     }
 
     /**

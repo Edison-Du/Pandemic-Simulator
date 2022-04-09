@@ -1,8 +1,6 @@
 package views.components;
 
-import java.awt.Dimension;
-
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import java.awt.*;
 
@@ -20,6 +18,7 @@ public class MainPanel extends JPanel {
         this.setLayout(null);
 
         timeTracker = new TimeTracker();
+        // timeTracker.setBorder(BorderFactory.createLineBorder(Color.white));
         timeTracker.setBackground(UI.MAIN_PANEL_BG);
         timeTracker.setBounds(80, 60, 200, 100);
         this.add(timeTracker);

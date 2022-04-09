@@ -1,6 +1,7 @@
 package config;
 
 import java.awt.*;
+import java.io.File;
 
 public final class UI {
     public static final int UPDATE_RATE = 100;
@@ -20,4 +21,42 @@ public final class UI {
     public static final Color RECOVERED_COLOR = new Color(255, 252, 53);
     public static final Color HALLWAY_BG = new Color(27, 27, 27);
 
+
+
+    public static Font orkney;
+    public static Font orkney12;
+    public static Font orkney14;
+    public static Font orkney16;
+    public static Font orkney18;
+    public static Font orkney24;
+    public static Font orkney30;
+    public static Font orkney36;
+    public static Font orkney48;
+    public static Font orkney96;
+
+    public static void loadFonts() {
+        if (readFonts()) {
+            orkney12 = orkney.deriveFont(Font.PLAIN, 12);
+            orkney14 = orkney.deriveFont(Font.PLAIN, 14);
+            orkney16 = orkney.deriveFont(Font.PLAIN, 16);
+            orkney18 = orkney.deriveFont(Font.PLAIN, 18);
+            orkney24 = orkney.deriveFont(Font.PLAIN, 24);
+            orkney30 = orkney.deriveFont(Font.PLAIN, 30);
+            orkney36 = orkney.deriveFont(Font.PLAIN, 36);
+            orkney48 = orkney.deriveFont(Font.PLAIN, 48);
+            orkney96 = orkney.deriveFont(Font.PLAIN, 96);
+        }
+    }
+
+    public static boolean readFonts() {
+        try {
+            orkney = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Orkney-Regular.ttf"));
+            return true;
+            
+        } catch (Exception e) {
+            System.out.println("Could not load fonts.");
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

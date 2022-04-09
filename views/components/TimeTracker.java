@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import config.Globals;
+import config.UI;
 import simulation.Periods;
 
 public class TimeTracker extends JPanel {
@@ -22,15 +23,20 @@ public class TimeTracker extends JPanel {
         currentTime = new JLabel("12:00 AM");
         currentPeriod = new JLabel("", SwingConstants.RIGHT);
 
-        dayNum.setBounds(0, 0, 100, 60);
+        dayNum.setBounds(0, 0, 200, 60);
         dayNum.setForeground(Color.white);
-        dayNum.setBorder(BorderFactory.createLineBorder(Color.white));
+        dayNum.setFont(UI.orkney36);
+        // dayNum.setBorder(BorderFactory.createLineBorder(Color.white));
+
         currentTime.setBounds(0, 40, 100, 60);
         currentTime.setForeground(Color.white);
-        currentTime.setBorder(BorderFactory.createLineBorder(Color.white));
+        currentTime.setFont(UI.orkney18);
+        // currentTime.setBorder(BorderFactory.createLineBorder(Color.white));
+
         currentPeriod.setBounds(100, 40, 100, 60);
         currentPeriod.setForeground(Color.white);
-        currentPeriod.setBorder(BorderFactory.createLineBorder(Color.white));
+        currentPeriod.setFont(UI.orkney18);
+        // currentPeriod.setBorder(BorderFactory.createLineBorder(Color.white));
 
         this.add(dayNum);
         this.add(currentTime);

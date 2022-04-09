@@ -13,18 +13,15 @@ import views.components.*;
 
 public class Window extends JFrame {
 
-    // public SideBar sideBar;
-    // public MainPanel mainPanel;
-    
     public Page currentPage;
     public SimulationPage simulationPage;
     public EditSchedule editSchedulePage;
     public Pages currentPageName;
 
-    // public School school;
-    // private boolean simRunning = false;
-
     public Window() {
+
+        UI.loadFonts();
+
 
         simulationPage = new SimulationPage(this);
         editSchedulePage = new EditSchedule(this);
