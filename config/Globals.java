@@ -12,4 +12,10 @@ public final class Globals {
 
     public static Schedule schedule = new Schedule();
 
+    public static int P1_LENGTH = 70;
+    public static int P2_LENGTH = 70;
+    public static int P3_LENGTH = 70;
+    public static int P4_LENGTH = 70;
+    public static int HALLWAY_TIME = 10;
+
 }

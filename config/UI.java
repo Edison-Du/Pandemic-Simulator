@@ -3,7 +3,7 @@ package config;
 import java.awt.*;
 
 public final class UI {
-    public static final int UPDATE_RATE = 10;
+    public static final int UPDATE_RATE = 100;
     public static final int WINDOW_WIDTH = 1280;
     public static final int WINDOW_HEIGHT = 720;
 

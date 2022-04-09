@@ -9,32 +9,35 @@ import config.Globals;
 import config.UI;
 import simulation.School;
 import simulation.Status;
-import views.components.SideBar;
-import views.components.MainPanel;
+import views.components.*;
 
 public class Window extends JFrame {
 
-    public SideBar sideBar;
-    public MainPanel mainPanel; 
+    // public SideBar sideBar;
+    // public MainPanel mainPanel;
+    
+    public Page currentPage;
+    public SimulationPage simulationPage;
+    public EditSchedule editSchedulePage;
+    public Pages currentPageName;
 
-    public School school;
-
-    private boolean simRunning = false;
+    // public School school;
+    // private boolean simRunning = false;
 
     public Window() {
 
-        school = new School();
+        simulationPage = new SimulationPage(this);
+        editSchedulePage = new EditSchedule(this);
 
-        sideBar = new SideBar(this);
-        mainPanel = new MainPanel(school);
+        currentPageName = Pages.SIMULATION_PAGE;
+        currentPage = simulationPage;
 
 
-        // this.setTitle(UserInterface.WINDOW_TITLE);
+
+        this.setTitle("Pandemic Simulator");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.setLayout(new BorderLayout());
-        this.getContentPane().add(mainPanel, BorderLayout.WEST);
-        this.getContentPane().add(sideBar);
+        this.getContentPane().add(currentPage);
         this.setVisible(true);
         this.pack();
         
@@ -49,23 +52,12 @@ public class Window extends JFrame {
         frameUpdateThread.start();
     }
 
-    /**
-     * updateFrame
-     * Repaints the JFrame on a set interval
-     */
     private void updateFrame() {
         try {
             while (true) {
-                if (simRunning) {
-                    Globals.TIME_ELAPSED += 10;
-                    if (Globals.TIME_ELAPSED % (60 * 24) == 0){
-                        school.dayChange();
-                    }
-                    school.updateStudents();
-                }
-                mainPanel.timeTracker.updateText();
+                currentPage.updatePage();
                 this.repaint();
-                Thread.sleep(UI.UPDATE_RATE * 10);
+                Thread.sleep(UI.UPDATE_RATE);
             }
 
         } catch (Exception e) {
@@ -74,26 +66,32 @@ public class Window extends JFrame {
         }
     }
 
-    public void play() {
-        
-    }
 
+    public void changePage(Pages pageName) {
+        if (pageName == currentPageName) return;
 
-    public void reset() {
-        Globals.TIME_ELAPSED = 0;
-        school.resetSchool();
-
-        if (simRunning) toggleRunning();
-    }
-
-    public void toggleRunning() {
-        simRunning = !simRunning;
-        if (simRunning) {
-            sideBar.playBtn.setText("Pause");
-
-        } else {
-            sideBar.playBtn.setText("Play");
-
+        if (currentPage != null) {
+            this.remove(currentPage);
         }
+
+        currentPageName = pageName;
+
+
+        if (currentPageName == Pages.SIMULATION_PAGE &&
+            simulationPage.isRunning()) {
+                simulationPage.toggleRunning();
+        }
+
+        if (pageName == Pages.SIMULATION_PAGE) {
+            currentPage = simulationPage;
+
+        } else if (pageName == Pages.EDIT_SCHEDULE_PAGE) {
+            currentPage = editSchedulePage;
+        }
+
+        currentPage.revalidate();
+        this.add(currentPage);
+
     }
+
 }

@@ -13,14 +13,19 @@ public class SideBar extends JPanel implements ActionListener{
 
     public CustomButton playBtn, resetBtn, editScheduleBtn;
     public Window window;
+
+    // public SimulationPage simulationPage;
     public Slider sliderTest;
 
     public SideBar(Window window) {
+    // public SideBar(SimulationPage simulationPage) {
+
         this.setPreferredSize(new Dimension(UI.SIDE_BAR_WIDTH, UI.MAIN_PANEL_HEIGHT));
         this.setBackground(UI.SIDE_BAR_BG);
         this.setLayout(null);
         
         this.window = window;
+        // this.simulationPage = simulationPage;
 
         playBtn = new CustomButton("Play");
         playBtn.setBounds(30, 50, 100, 50);
@@ -66,16 +71,18 @@ public class SideBar extends JPanel implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == playBtn) {
-            window.toggleRunning();
-            
+            // window.toggleRunning();
+            window.simulationPage.toggleRunning();
+
         } else if (e.getSource() == resetBtn) {
-            window.reset();
+            // window.reset();
+            window.simulationPage.reset();
 
         } else if (e.getSource() == sliderTest) {
             System.out.println(e.getActionCommand());
 
         } else if (e.getSource() == editScheduleBtn) {
-
+            window.changePage(Pages.EDIT_SCHEDULE_PAGE);
         }
     }
 

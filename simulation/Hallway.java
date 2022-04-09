@@ -16,7 +16,7 @@ public class Hallway extends JPanel {
     public Hallway (School school) {
         this.school = school;
         this.setBackground(UI.HALLWAY_BG);
-        this.setBorder(BorderFactory.createLineBorder(Color.white));
+        this.setBorder(BorderFactory.createLineBorder(Color.white, 2));
     }
 
     public void simulateSpread() {

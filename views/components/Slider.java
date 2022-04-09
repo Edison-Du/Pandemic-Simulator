@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Slider extends JPanel implements MouseListener, MouseMotionListener {
-    private int length, diameter, position, partition;
+    public int length, diameter, position, partition;
     private boolean pressed;
 
     private ActionListener actionListener;

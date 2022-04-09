@@ -59,8 +59,10 @@ public class TimeTracker extends JPanel {
         dayNum.setText("Day " + getDayNum());
         currentTime.setText(getTime());
 
-        String s = Globals.schedule.getCurrentIntervalString();
-        currentPeriod.setText(s);
+        synchronized(Globals.schedule.schedules) {
+            String s = Globals.schedule.getCurrentIntervalString();
+            currentPeriod.setText(s);
+        }
         this.revalidate();
         this.repaint();
     }

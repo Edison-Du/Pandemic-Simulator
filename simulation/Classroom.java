@@ -22,7 +22,7 @@ public class Classroom extends JPanel {
         reset();
 
         this.setBackground(UI.SIDE_BAR_BG);
-        this.setBorder(BorderFactory.createLineBorder(Color.white));
+        this.setBorder(BorderFactory.createLineBorder(Color.white, 2));
     }
 
 	public void reset() {
@@ -60,7 +60,7 @@ public class Classroom extends JPanel {
         resetClone();
         for (int i = 0; i < ROWS; i++){
             for (int j = 0; j < COLS; j++){
-                if (seating[i][j].status == Status.INFECTED && seating[i][j].daysIncubated >= 1){
+                if (seating[i][j].status == Status.INFECTED && seating[i][j].daysIncubated >= Globals.infectionPeriod){
                     infectAdjacent(i, j);
                 }
             }
