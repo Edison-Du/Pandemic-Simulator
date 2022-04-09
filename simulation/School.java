@@ -7,14 +7,14 @@ import config.Globals;
 
 public class School {
     public ArrayList<Student> students;
-    public ArrayList<Classroom> classes;
+    public ArrayList<Pod> pods;
     // public Schedule schedule;
-    public Hallway hallway;
+    public ArrayList<Hallway> hallways;
 
     public School() {
         students = new ArrayList<>();
-        classes = new ArrayList<>();
-        hallway = new Hallway(this);
+        pods = new ArrayList<>();
+        hallways = new ArrayList<>();
 
         // schedule = new Schedule();
 
@@ -22,8 +22,12 @@ public class School {
             students.add(new Student());
         }
 
-        for (int i = 0; i < Consts.NUM_CLASSES; i++) {
-            classes.add(new Classroom());
+        for (int i = 0; i < Consts.NUM_PODS; i++) {
+            pods.add(new Pod());
+        }
+
+        for (int i = 0; i < Consts.NUM_PODS; i++) {
+            hallways.add(new Hallway());
         }
 
         resetSchool();
@@ -31,10 +35,10 @@ public class School {
 
     public void resetSchool() {
         synchronized(students) {
-        synchronized(classes) {
+        synchronized(pods) {
 
             for (Student s : students) s.reset();
-            for (Classroom c : classes) c.reset();
+            for (Pod p : pods) p.reset();
     
             generateSchedules();
             students.get(0).status = Status.INFECTED;
@@ -44,7 +48,8 @@ public class School {
 
     public void generateSchedules() {
 
-        int[] classCount = new int[Consts.NUM_CLASSES];
+        System.out.println("WTF");
+        int[][] classCount = new int[Consts.NUM_PODS][Consts.NUM_CLASSES];
 
         // 4 course schedule
         for (int i = 0; i < 4; i++) {
@@ -54,15 +59,17 @@ public class School {
 
             for (int j = 0; j < Consts.NUM_STUDENTS; j++) {
 
-                int classN = j / Consts.CLASS_SIZE;
+                int classN = (j / Consts.CLASS_SIZE) % Consts.NUM_CLASSES;
+                int podN = j / (Consts.CLASS_SIZE * Consts.NUM_CLASSES);
                 
+                students.get(j).pod[i] = podN;
                 students.get(j).schedule[i] = classN;
 
                 // 4 rows, 5 cols,   (r, c)
-                students.get(j).seating[i][0] = classCount[classN]/5;
-                students.get(j).seating[i][1] = classCount[classN]%5;
+                students.get(j).seating[i][0] = classCount[podN][classN]/5;
+                students.get(j).seating[i][1] = classCount[podN][classN]%5;
 
-                classCount[classN]++;
+                classCount[podN][classN]++;
 
                 /**
                  *  0  1  2  3  4
@@ -71,14 +78,12 @@ public class School {
                  * 15 16 17 18 19
                  */
             }
-
-            for (int j = 0; j < Consts.NUM_CLASSES; j++) {
-                classCount[j] = 0;
+            for (int j = 0; j < Consts.NUM_PODS; j++){
+                for (int k = 0; k < Consts.NUM_CLASSES; k++) {
+                    classCount[j][k] = 0;
+                }
             }
         }
-
-
-        
         // for (int j = 0; j < Consts.NUM_STUDENTS; j++) {
         //     for (int i = 0; i < 4; i++) {
         //         System.out.print(students.get(j).schedule[i] + ": (" + students.get(j).seating[i][0] + ", " + students.get(j).seating[i][1] + " | ");
@@ -102,7 +107,7 @@ public class School {
 
     public void updateStudents() {
         synchronized(students) {
-        synchronized(classes) {
+        synchronized(pods) {
 
             int p = -1;
             Periods now = Globals.schedule.getCurrentInterval();
@@ -113,24 +118,43 @@ public class School {
             if (p >= 0) {
                 for (int i = 0; i < Consts.NUM_STUDENTS; i++) {
 
+                    int podN = students.get(i).pod[p];
                     int classN = students.get(i).schedule[p];
                     int r = students.get(i).seating[p][0];
                     int c = students.get(i).seating[p][1];
                     
-                    classes.get(classN).seating[r][c] = students.get(i);
+                    pods.get(podN).classes.get(classN).seating[r][c] = students.get(i);
                 }
-                for (int i = 0; i < Consts.NUM_CLASSES; i++) {
-                    classes.get(i).simulateSpread();
+                for (int j = 0; j < Consts.NUM_PODS; j++){
+                    for (int i = 0; i < Consts.NUM_CLASSES; i++) {
+                        pods.get(j).classes.get(i).simulateSpread();
+                    }
                 }
+                simulateHallway(p);
                 return;
 
             } else {
-                for (int i = 0; i < Consts.NUM_CLASSES; i++) {
-                    classes.get(i).reset();
+                for (int j = 0; j < Consts.NUM_PODS; j++){
+                    for (int i = 0; i < Consts.NUM_CLASSES; i++) {
+                        pods.get(j).classes.get(i).reset();
+                    }
                 }
-                if (now == Periods.HALL) hallway.simulateSpread();
+                if (now == Periods.HALL){
+                    for (Hallway h : hallways){
+                        h.simulateSpread();
+                    }
+                }
             }
 
         }}
+    }
+
+    public void simulateHallway(int p){
+        for (int i = 0; i < Consts.NUM_PODS; i++){
+            hallways.set(i, new Hallway());
+        }
+        for (Student s : students){
+            hallways.get(s.pod[p]).students.add(s);
+        }
     }
 }

@@ -32,7 +32,10 @@ public class SimulationPage extends Page {
             if (Globals.TIME_ELAPSED % (60 * 24) == 0){
                 school.dayChange();
             }
-            school.updateStudents();
+            synchronized(school.students){
+            synchronized(school.pods){
+                school.updateStudents();
+            }}
         }
         mainPanel.timeTracker.updateText();
     }

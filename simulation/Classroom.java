@@ -57,17 +57,20 @@ public class Classroom extends JPanel {
 
     public void simulateSpread(){
         // Simulate the spread of the virus within a classroom
-        resetClone();
-        for (int i = 0; i < ROWS; i++){
-            for (int j = 0; j < COLS; j++){
-                if (seating[i][j].status == Status.INFECTED && seating[i][j].daysIncubated >= Globals.infectionPeriod){
-                    infectAdjacent(i, j);
+        synchronized(seating){
+            resetClone();
+            for (int i = 0; i < ROWS; i++){
+                for (int j = 0; j < COLS; j++){
+                    // if (seating[i][j] == null) continue;
+                    if (seating[i][j].status == Status.INFECTED && seating[i][j].daysIncubated >= Globals.infectionPeriod){
+                        infectAdjacent(i, j);
+                    }
                 }
             }
-        }
-        for (int i = 0; i < ROWS; i++){
-            for (int j = 0; j < COLS; j++){
-                if (seatingClone[i][j]) seating[i][j].status = Status.INFECTED;
+            for (int i = 0; i < ROWS; i++){
+                for (int j = 0; j < COLS; j++){
+                    if (seatingClone[i][j]) seating[i][j].status = Status.INFECTED;
+                }
             }
         }
     }

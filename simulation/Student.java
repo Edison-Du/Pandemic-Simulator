@@ -2,7 +2,7 @@ package simulation;
 
 public class Student {
     public Status status;
-    public int[] schedule;
+    public int[] schedule, pod;
     public int[][] seating;
     public int daysIncubated, daysQuarantined;
 
@@ -13,6 +13,7 @@ public class Student {
     public void reset(){
         status = Status.SUSCEPTIBLE;
 
+        pod = new int[4];
         schedule = new int [4];
         seating = new int [4][2];
         
