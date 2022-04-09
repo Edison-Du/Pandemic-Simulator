@@ -52,10 +52,17 @@ public class Toggle extends JPanel implements MouseListener{
         Graphics2D g2d = (Graphics2D)g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-
+        if (!state) {
+            g2d.setColor(UI.REMOVED_COLOR);
+        } else {
+            g2d.setColor(UI.SUSCEPTIBLE_COLOR);
+        }
+        
+        g2d.fillOval(0, 0, diameter, diameter);
+        g2d.fillRect(diameter/2, 0, length-diameter, diameter);
+        g2d.fillOval(length-diameter, 0, diameter, diameter);
         g2d.setColor(Color.WHITE);
-        g2d.fillRoundRect(0, 0, length, diameter, 10, 10);
-        g2d.setStroke(new BasicStroke(0));
+
         if (!state) {
             g2d.fillOval(0, 0, diameter, diameter);
         } else {

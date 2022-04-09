@@ -44,6 +44,8 @@ public class Slider extends JPanel implements MouseListener, MouseMotionListener
             position = Math.min(position, length - diameter);
             position = Math.max(position, 0);
 
+            System.out.println(getSliderPosition());
+
             if (actionListener != null) {
                 ActionEvent event = new ActionEvent(this, 
                     ActionEvent.ACTION_PERFORMED, 
@@ -54,7 +56,12 @@ public class Slider extends JPanel implements MouseListener, MouseMotionListener
     }
 
     public int getSliderPosition() {
-        return position/(length/partition);
+        if (position == length-diameter) {
+            return partition-1;
+        }
+        else {
+            return position/(length/partition);
+        }
     }
 
     public void paintComponent(Graphics g) {
