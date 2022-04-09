@@ -17,5 +17,7 @@ public final class UI {
     public static final Color SUSCEPTIBLE_COLOR = new Color(0, 147, 154);
     public static final Color INFECTED_COLOR = new Color(231, 39, 45);
     public static final Color REMOVED_COLOR = new Color(102, 102, 102);
+    public static final Color RECOVERED_COLOR = new Color(255, 252, 53);
+    public static final Color HALLWAY_BG = new Color(27, 27, 27);
 
 }

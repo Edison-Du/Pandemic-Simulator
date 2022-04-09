@@ -22,7 +22,7 @@ public class Classroom extends JPanel {
         reset();
 
         this.setBackground(UI.SIDE_BAR_BG);
-        this.setBorder(BorderFactory.createLineBorder(Color.white));
+        this.setBorder(BorderFactory.createLineBorder(Color.white, 2));
     }
 
 	public void reset() {
@@ -43,8 +43,8 @@ public class Classroom extends JPanel {
     }
 
     public void infectAdjacent(int x, int y){
-        for (int i = 0; i < dx.length; i++){
-            for (int j = 0; j < dy.length; j++){
+        for (int i = 4; i < dx.length; i++){
+            for (int j = 4; j < dy.length; j++){
                 int curX = x + dx[i];
                 int curY = y + dy[i];
                 if (isWithin(curX, curY) && ThreadLocalRandom.current().nextInt(1, Globals.infectionChance) <= 1 
@@ -60,7 +60,7 @@ public class Classroom extends JPanel {
         resetClone();
         for (int i = 0; i < ROWS; i++){
             for (int j = 0; j < COLS; j++){
-                if (seating[i][j].status == Status.INFECTED){
+                if (seating[i][j].status == Status.INFECTED && seating[i][j].daysIncubated >= 1){
                     infectAdjacent(i, j);
                 }
             }
@@ -88,10 +88,14 @@ public class Classroom extends JPanel {
                     g2d.setColor(UI.SUSCEPTIBLE_COLOR);
                 } else if (seating[i][j].status == Status.INFECTED) {
                     g2d.setColor(UI.INFECTED_COLOR);
+                } else if (seating[i][j].status == Status.REMOVED) {
+                    g2d.setColor(getBackground());
                 } else if (seating[i][j].status == Status.RECOVERED){
-                    g2d.setColor(UI.REMOVED_COLOR);
+                    g2d.setColor(UI.RECOVERED_COLOR);
                 }
-                g2d.fillOval(j * (280/5), i * (200/4), 20, 20);
+                g2d.fillOval(j * (280/5),// + ThreadLocalRandom.current().nextInt(1, 5), 
+                i * (200/4),// + ThreadLocalRandom.current().nextInt(1, 5), 
+                20, 20);
 
             }
         }
@@ -99,15 +103,4 @@ public class Classroom extends JPanel {
         this.revalidate();
         this.repaint();
     }
-
-    public void clearSeats() {
-        // System.out.println("BRo");
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
-                seating[i][j] = null;
-            }
-        }
-    }
-
-
 }

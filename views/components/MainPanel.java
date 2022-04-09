@@ -25,8 +25,11 @@ public class MainPanel extends JPanel {
         this.add(timeTracker);
 
         for (int i = 0; i < Consts.NUM_CLASSES; i++) {
-            school.classes.get(i).setBounds((i%3) * 270 + 80, (i/3) * 290 + 180, 270, 170);
+            school.classes.get(i).setBounds((i%3) * 270 + 80, (i/3) * 290 + 180, 270 + 1, 170 + 1);
             this.add(school.classes.get(i));
         }
+
+        school.hallway.setBounds(80, 350, 810, 120 + 1);
+        this.add(school.hallway);
     }
 }

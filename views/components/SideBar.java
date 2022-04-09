@@ -14,6 +14,9 @@ public class SideBar extends JPanel implements ActionListener{
     public CustomButton playBtn, resetBtn;
     public Window window;
 
+
+    public Slider sliderTest;
+
     public SideBar(Window window) {
         this.setPreferredSize(new Dimension(UI.SIDE_BAR_WIDTH, UI.MAIN_PANEL_HEIGHT));
         this.setBackground(UI.SIDE_BAR_BG);
@@ -43,6 +46,10 @@ public class SideBar extends JPanel implements ActionListener{
 
         this.add(playBtn);
         this.add(resetBtn);
+
+        sliderTest = new Slider(240, 20, 12);
+        sliderTest.setBounds(30, 100, 240, 20);
+        this.add(sliderTest);
     }
 
 
