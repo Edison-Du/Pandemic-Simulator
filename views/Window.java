@@ -58,7 +58,6 @@ public class Window extends JFrame {
             }
 
         } catch (Exception e) {
-            System.out.println("Window update thread interrupted.");
             e.printStackTrace();
         }
     }

@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.*;
 
+import config.Consts;
 import config.Globals;
 import config.UI;
 
@@ -57,17 +58,20 @@ public class Classroom extends JPanel {
 
     public void simulateSpread(){
         // Simulate the spread of the virus within a classroom
-        resetClone();
-        for (int i = 0; i < ROWS; i++){
-            for (int j = 0; j < COLS; j++){
-                if (seating[i][j].status == Status.INFECTED && seating[i][j].daysIncubated >= Globals.infectionPeriod){
-                    infectAdjacent(i, j);
+        synchronized(seating){
+            resetClone();
+            for (int i = 0; i < ROWS; i++){
+                for (int j = 0; j < COLS; j++){
+                    // if (seating[i][j] == null) continue;
+                    if (seating[i][j].status == Status.INFECTED && seating[i][j].daysIncubated >= seating[i][j].infectionPeriod){
+                        infectAdjacent(i, j);
+                    }
                 }
             }
-        }
-        for (int i = 0; i < ROWS; i++){
-            for (int j = 0; j < COLS; j++){
-                if (seatingClone[i][j]) seating[i][j].status = Status.INFECTED;
+            for (int i = 0; i < ROWS; i++){
+                for (int j = 0; j < COLS; j++){
+                    if (seatingClone[i][j]) seating[i][j].status = Status.INFECTED;
+                }
             }
         }
     }
@@ -93,8 +97,8 @@ public class Classroom extends JPanel {
                 } else if (seating[i][j].status == Status.RECOVERED){
                     g2d.setColor(UI.RECOVERED_COLOR);
                 }
-                g2d.fillOval(j * (280/5) + ThreadLocalRandom.current().nextInt(1, 5), 
-                i * (200/4) + ThreadLocalRandom.current().nextInt(1, 5), 
+                g2d.fillOval(j * (280/5) + ThreadLocalRandom.current().nextInt(1, 5) + 10, 
+                i * (200/5) + ThreadLocalRandom.current().nextInt(1, 5) + 10, 
                 20, 20);
 
             }

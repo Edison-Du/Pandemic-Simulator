@@ -4,7 +4,7 @@ import java.awt.*;
 import java.io.File;
 
 public final class UI {
-    public static final int UPDATE_RATE = 500;
+    public static int UPDATE_RATE = 500; // 50 * partition
     public static final int WINDOW_WIDTH = 1280;
     public static final int WINDOW_HEIGHT = 720;
 
@@ -54,7 +54,6 @@ public final class UI {
             return true;
             
         } catch (Exception e) {
-            System.out.println("Could not load fonts.");
             e.printStackTrace();
         }
         return false;

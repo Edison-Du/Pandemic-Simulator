@@ -48,6 +48,11 @@ public class Schedule{
                         new Interval(schedules.get(i).left, schedules.get(i).right, schedules.get(i).period, !flag));
                 }
             }
+
+            // for (Interval i : schedules) {
+            //     System.out.println(i.period + " " + i.sync);
+            // }
+            // System.out.println("----------------------------");
         }
     }
 

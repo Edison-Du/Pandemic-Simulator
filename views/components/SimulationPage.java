@@ -42,8 +42,6 @@ public class SimulationPage extends Page {
         mainPanel.timeTracker.updateText();
     }
     
-
-    
     public void reset() {
         Globals.TIME_ELAPSED = 0;
         school.resetSchool();
